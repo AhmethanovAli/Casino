@@ -17,6 +17,10 @@ class Main(Tk):
         self.y = randint(1, 3)
         self.z = randint(1, 3)
         self.loop = None
+        self.money = 1500
+        self.balance = Label(text=self.money, bg='#FFD300', font=('Elephant', 12), borderwidth=5,
+                             relief="ridge")
+        self.balance.place(x=20, y=20, width=100, height=45)
         self.numb = Label(text='0', bg='#FFD300', font=('Elephant', 18, 'bold'), borderwidth=5, relief="sunken")
         self.numb.place(x=200, y=240, width=60, height=60)
         self.numb1 = Label(text='0', bg='#FFD300', font=('Elephant', 18, 'bold'), borderwidth=5, relief="sunken")
@@ -37,6 +41,7 @@ class Main(Tk):
         self.numb.configure(text=self.x)
         self.numb1.configure(text=self.y)
         self.numb2.configure(text=self.z)
+        self.money -= 200
         self.loop = self.after(100, self.press_start)  # Метод зацикливания функции
 
     def press_stop(self):
