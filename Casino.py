@@ -10,6 +10,7 @@ from tkinter import ttk
 class Main(Tk):
     def __init__(self):  # self = root
         super().__init__()  # Когда мы создаем объект этого класса ( Main() )
+        self.win = Label(text='💰💲Jackpot💲💰', font=('Elephant', 24, 'bold'), bg='#FFF8DC')
         self.title('Mellbet')
         self.geometry('600x600')
         self['bg'] = '#FFF8DC'
@@ -17,7 +18,13 @@ class Main(Tk):
         self.y = randint(1, 3)
         self.z = randint(1, 3)
         self.loop = None
-        self.money = 1500
+        self.money = 0
+        self.flag = True
+        self.games = 0
+        self.winning = 0
+        self.losing = 0
+
+        self.error = Label(text='Top up your balance', bg='#FFF8DC', font=('Elephant', 22), foreground='red')
         self.balance = Label(text=self.money, bg='#FFD300', font=('Elephant', 12), borderwidth=5,
                              relief="ridge")
         self.balance.place(x=20, y=20, width=100, height=45)
@@ -41,13 +48,28 @@ class Main(Tk):
         self.numb.configure(text=self.x)
         self.numb1.configure(text=self.y)
         self.numb2.configure(text=self.z)
-        self.money -= 200
+        self.win.destroy()
+        self.games += 1
+
+        if self.money - 200 < 0:
+            self.error.place(x=180, y=20)
+            raise ValueError('Is not enough money')
+        if self.flag == True:
+            self.flag = False
+            self.money -= 200
+            self.losing += 200
+            self.balance.configure(text=self.money)
         self.loop = self.after(100, self.press_start)  # Метод зацикливания функции
 
     def press_stop(self):
+        self.flag = True
         if self.x == self.y and self.x == self.z:
-            win = Label(text='💰💲Jackpot💲💰', font=('Elephant', 24, 'bold'), bg='#FFF8DC')
-            win.place(x=180, y=80)
+            cash = randint(1000, 2000)
+            self.money += cash
+            self.winning += cash
+            self.balance.configure(text=self.money)
+            self.win = Label(text='💰💲Jackpot💲💰', font=('Elephant', 24, 'bold'), bg='#FFF8DC')
+            self.win.place(x=180, y=80)
         self.after_cancel(self.loop)
 
 
